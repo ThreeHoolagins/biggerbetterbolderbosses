@@ -1,5 +1,6 @@
 package net.biggerbetterbolderbosses.entity.golem.custom;
 
+import net.biggerbetterbolderbosses.entity.golem.ModEntities;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
@@ -17,8 +18,14 @@ import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.*;
+import software.bernie.geckolib.core.object.PlayState;
 
-public class GolemEntity extends Animal {
+public class GolemEntity extends Animal implements GeoAnimatable {
+    private AnimatableInstanceCache cache = new AnimatableInstanceCache(this);
+    }
     public GolemEntity (EntityType<? extends Animal> pEntityType, Level plevel) {
         super(pEntityType, plevel);
     }
@@ -39,6 +46,26 @@ public class GolemEntity extends Animal {
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
-        return null;
+        return ModEntities.GOLEM.get().create(pLevel);
+    }
+
+    @Override
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>(this, "controller", 0, this::predicate));
+    }
+
+    private <T extends GeoAnimatable> PlayState predicate(AnimationState<T> tAnimationState) {
+        if(tAnimationState.isMoving()) {
+            tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.geometry.golem.walk", Animation.LoopType.LOOP));
+            return PlayState.CONTINUE;
+        }
+
+        tAnimationState.getController().setAnimation(RawAnimation.begin().then("animation.geometry.golem.sleepy", Animation.LoopType.LOOP));
+        return PlayState.CONTINUE;
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
     }
 }
