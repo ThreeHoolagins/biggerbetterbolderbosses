@@ -1,7 +1,7 @@
 {
 	"format_version": "1.8.0",
 	"animations": {
-		"animation.geometry.irongolem.sleepy": {
+		"animation.geometry.golem.sleepy": {
 			"animation_length": 1.29167,
 			"bones": {
 				"lLeg": {
@@ -21,7 +21,7 @@
 				}
 			}
 		},
-		"animation.geometry.irongolem.walk": {
+		"animation.geometry.golem.walk": {
 			"loop": true,
 			"animation_length": 1.04167,
 			"bones": {
@@ -98,7 +98,7 @@
 				}
 			}
 		},
-		"animation.geometry.irongolem.smash": {
+		"animation.geometry.golem.smash": {
 			"loop": "hold_on_last_frame",
 			"animation_length": 2.875,
 			"bones": {
@@ -380,7 +380,7 @@
 				}
 			}
 		},
-		"animation.geometry.irongolem.ram": {
+		"animation.geometry.golem.ram": {
 			"animation_length": 0.45833,
 			"bones": {
 				"body": {
@@ -438,7 +438,7 @@
 				}
 			}
 		},
-		"animation.geometry.irongolem.ramRun": {
+		"animation.geometry.golem.ramRun": {
 			"loop": true,
 			"animation_length": 0.58333,
 			"bones": {
