@@ -14,24 +14,29 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Zombie;
+import net.minecraft.world.entity.monster.piglin.Piglin;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
+import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.core.animatable.GeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animatable.instance.SingletonAnimatableInstanceCache;
 import software.bernie.geckolib.core.animation.*;
 import software.bernie.geckolib.core.object.PlayState;
 
-public class GolemEntity extends Animal implements GeoAnimatable {
-    private AnimatableInstanceCache cache = new AnimatableInstanceCache(this);
-    }
-    public GolemEntity (EntityType<? extends Animal> pEntityType, Level plevel) {
-        super(pEntityType, plevel);
+public class GolemEntity extends Piglin implements GeoEntity {
+    private AnimatableInstanceCache cache = new SingletonAnimatableInstanceCache(this) ;
+    public GolemEntity (EntityType<? extends Piglin> pEntityType, Level level) {
+        super(pEntityType, level);
     }
 
     public static AttributeSupplier.Builder createAttributes () {
-        return Animal.createLivingAttributes().add(Attributes.MAX_HEALTH, 3000);
+        return Zombie.createLivingAttributes().add(Attributes.MAX_HEALTH, 3000)
+                .add(Attributes.FOLLOW_RANGE, 30)
+                .add(Attributes.ATTACK_DAMAGE, 2).add(Attributes.ATTACK_KNOCKBACK, 30);
     }
 
     @Override
@@ -42,11 +47,6 @@ public class GolemEntity extends Animal implements GeoAnimatable {
         this.goalSelector.addGoal(5, new RandomLookAroundGoal(this));
 
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
-    }
-    @Nullable
-    @Override
-    public AgeableMob getBreedOffspring(ServerLevel pLevel, AgeableMob pOtherParent) {
-        return ModEntities.GOLEM.get().create(pLevel);
     }
 
     @Override
