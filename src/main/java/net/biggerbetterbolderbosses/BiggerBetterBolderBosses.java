@@ -1,6 +1,7 @@
 package net.biggerbetterbolderbosses;
 
 import com.mojang.logging.LogUtils;
+import net.biggerbetterbolderbosses.entity.golem.ModEntities;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.food.FoodProperties;
@@ -74,6 +75,8 @@ public class BiggerBetterBolderBosses
         ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
+        // Register the Deferred Register to the mod event bus so entities get registered
+        ModEntities.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
